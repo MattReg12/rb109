@@ -19,14 +19,19 @@ rindex of a number less than the last
 def next_bigger_num(int)
   dig = int.digits
   return -1 if dig.sort == dig
-
-  operation = []
-  dig.each_with_index do |digit, idx|
-    switch = dig.index { |num| digit > num }
-    break operation = [idx, switch] if switch != nil
-  end
+  operation = switch_indices(dig)
   dig[operation.first], dig[operation.last] = dig[operation.last], dig[operation.first]
   dig.reverse.join.to_i
+end
+
+def switch_indices(arr)
+  arr.each_with_object([]).with_index do |(digit, indices), idx|
+    switch = arr.index { |num| digit > num }
+    if switch != nil
+      indices << idx
+      indices << switch
+    end
+  end
 end
 
 
